@@ -4,19 +4,25 @@ public class Task2 {
     public static void main(String[] args) {
         int[] nums = {1, 2, 3, 2, 1, 2, 3, 4};
         int n = nums.length;
-        int[] maxLengths = new int[n];
-        int overallMax = 1;
-
-        for (int i = n - 1; i >= 0; i--) {
-            int localMax = 1;
-            for (int j = i + 1; j < n; j++) {
-                if (nums[j] > nums[i]) {
-                    localMax = Math.max(localMax, maxLengths[j] + 1);
+        int[] tails = new int[n];
+        int overallMax = 0;
+        for (int num : nums) {
+            int left = 0;
+            int right = overallMax;
+            while (left < right) {
+                int middle = (left + right) / 2;
+                if (tails[middle] < num) {
+                    left = middle + 1;
+                } else {
+                    right = middle;
                 }
             }
-            maxLengths[i] = localMax;
-            overallMax = Math.max(overallMax, localMax);
+            tails[left] = num;
+            if (left == overallMax) {
+                overallMax++;
+            }
         }
-        System.out.println("длина наибольшей возрастающей подпоследовательности: " + overallMax);
+        System.out.println("длина наибольшей возрастающей подпоследовательности: " + overallMax
+        );
     }
 }
